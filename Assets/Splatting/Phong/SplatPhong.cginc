@@ -93,6 +93,6 @@ fixed4 Fragment(g2f input) : SV_Target
 		specularReflection = attenuation * _LightColor0.rgb * _SpecColor.rgb * pow(max(0.0, dot(reflect(-lightDirection, normalDirection), viewDirection)), _Shininess);
 	}
 
-	float3 color = (ambientLighting + diffuseReflection) + specularReflection; //Texture is not applient on specularReflection
+	float3 color = (ambientLighting + diffuseReflection) + specularReflection;
 	return float4(color, 1.0);
 }

@@ -17,7 +17,7 @@ namespace Assets.Splatting
 
             var startTime = Time.realtimeSinceStartup;
 
-            _pointCloud.Union(new DfSphere(new Vector3(50, 50, 50), 50));
+            _pointCloud.Union(new DfSphere(new Vector3(50, 50, 50), 10));
             
 
             Render();
@@ -44,12 +44,12 @@ namespace Assets.Splatting
                 {
                     for (var z = 0; z < _pointCloud.Length; z++)
                     {
-                        if (_pointCloud.Get(x, y, z) < 0)
+                        if (_pointCloud.Get(x, y, z).Density < 0)
                         {
                             vertices.Add(new Vector3(x, y, z));
                             indices.Add(i++);
                             colors.Add(Color.blue);
-                            normals.Add(_pointCloud.GetNormal(x, y, z));
+                            normals.Add(_pointCloud.Get(x, y, z).Normal);
                         }
                     }
                 }
@@ -64,22 +64,26 @@ namespace Assets.Splatting
 
         private void OnDrawGizmos()
         {
-            /*
             for (var x = 0; x < _pointCloud.Width-1; x++)
             {
                 for (var y = 0; y < _pointCloud.Height-1; y++)
                 {
                     for (var z = 0; z < _pointCloud.Length-1; z++)
                     {
-                        if (_pointCloud.Get(x,y,z) > -0.05)
+                        try
                         {
-                            Gizmos.DrawLine(new Vector3(x, y, z), new Vector3(x, y, z) + _pointCloud.GetNormal(x, y, z));
+                            if (_pointCloud.Get(x, y, z).Density > -0.05)
+                            {
+                                //Gizmos.DrawLine(new Vector3(x, y, z), new Vector3(x, y, z) + _pointCloud.Get(x, y, z).Normal);
+                            }
                         }
-                        
+                        catch
+                        {
+                            // ignored
+                        }
                     }
                 }
             }
-            */
         }
     }
 }
