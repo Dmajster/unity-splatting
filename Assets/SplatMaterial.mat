@@ -5,9 +5,10 @@ Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: SplatMaterial
-  m_Shader: {fileID: 4800000, guid: 099795f9b5cc05c44a34ddf30f5ed99a, type: 3}
+  m_Shader: {fileID: 4800000, guid: f8eeecd5aa0535842b8aac9dafb0ed32, type: 3}
   m_ShaderKeywords: PIXELSNAP_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -74,6 +75,7 @@ Material:
     - _Parallax: 0.02
     - _ScaleX: 1
     - _ScaleY: 1
+    - _Shininess: 10
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1

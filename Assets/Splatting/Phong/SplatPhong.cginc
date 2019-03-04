@@ -53,18 +53,20 @@ v2g Vertex(appdata input)
 void Geometry(point v2g input[1], inout TriangleStream<g2f>outputStream) {
 	g2f output;
 
-	output.vertex = UnityObjectToClipPos(input[0].vertex + (-input[0].up + input[0].right));
+	float size = 0.7f;
+
+	output.vertex = UnityObjectToClipPos(input[0].vertex + (-input[0].up + input[0].right) * size );
 	output.color = input[0].color;
 	output.normal = input[0].normal;
 	outputStream.Append(output);
 
-	output.vertex = UnityObjectToClipPos(input[0].vertex + (-input[0].up - input[0].right));
+	output.vertex = UnityObjectToClipPos(input[0].vertex + (-input[0].up - input[0].right) * size);
 	outputStream.Append(output);
 
-	output.vertex = UnityObjectToClipPos(input[0].vertex + (+input[0].up + input[0].right));
+	output.vertex = UnityObjectToClipPos(input[0].vertex + (+input[0].up + input[0].right) * size);
 	outputStream.Append(output);
 
-	output.vertex = UnityObjectToClipPos(input[0].vertex + (+input[0].up - input[0].right));
+	output.vertex = UnityObjectToClipPos(input[0].vertex + (+input[0].up - input[0].right) * size);
 	outputStream.Append(output);
 
 	outputStream.RestartStrip();
