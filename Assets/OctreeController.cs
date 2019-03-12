@@ -1,36 +1,41 @@
-﻿using UnityEngine;
+﻿using Assets.Density_Field;
+using Assets.Density_Function;
+using UnityEngine;
 
 namespace Assets
 {
     public class OctreeController : MonoBehaviour
     {
         public Octree Octree;
+        public int MaxLevel;
 
         public void Start()
         {
             Octree = new Octree();
-            ref var root = ref Octree.Get(0);
-            root.SetChildMask(0, true);
-            root.SetChildMask(4, true);
-            root.SetChildMask(7, true);
-            Octree.AddChildren(ref root);
 
-            ref var child1 = ref Octree.GetNChild(root, 1);
-            child1.SetChildMask(1, true);
-            child1.SetChildMask(3, true);
-            child1.SetChildMask(5, true);
-            Octree.AddChildren(ref child1);
+            Octree.DepthFirst(
+                ref Octree.Get(0),
+                transform.position, 
+                transform.localScale, 
+                new DfSphere(
+                    new Vector3(50,50,50),
+                    25f
+                ),
+                MaxLevel
+            );
+
+            Debug.Log(Octree.Size);
         }
 
         public void OnDrawGizmosSelected()
-        {
+        { 
             
             var root = Octree.Get(0);
 
-            DrawOctree(root, transform.position, transform.localScale);
+            DrawOctree(ref root, transform.position, transform.localScale);
         }
 
-        public void DrawOctree(Node node, Vector3 position, Vector3 size)
+        public void DrawOctree(ref Node node, Vector3 position, Vector3 size)
         {
             var count = node.GetChildrenCount();
 
@@ -38,12 +43,15 @@ namespace Assets
 
             for (var i = 0; i < count; i++)
             {
-                var child = Octree.GetNChild(node, i);
+                ref var child = ref Octree.GetNChild(node, i);
                 var childIndex = node.GetNChildIndex(i);
                 var childPosition = Octree.NodeOffsets[childIndex];
                 childPosition.Scale(size / 2);
-                DrawOctree(child, position + childPosition, size/2);
 
+                if (!child.Equals(node))
+                {
+                    DrawOctree(ref child, position + childPosition, size / 2);
+                }
             }
         }
     }
